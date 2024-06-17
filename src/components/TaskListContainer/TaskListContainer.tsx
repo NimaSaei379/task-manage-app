@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { useTodoContext } from "@/context/TodoContext";
 
 const StyledListElements = styled.div`
   width: 100%;
@@ -15,7 +16,9 @@ const StyledListElements = styled.div`
 `;
 
 function TaskListContainer() {
-    return <StyledListElements>تسکی وجود ندارد</StyledListElements>;
+  const { state } = useTodoContext();
+  console.log(state.todos);
+  return <StyledListElements>{}</StyledListElements>;
 }
 
 export default TaskListContainer;
