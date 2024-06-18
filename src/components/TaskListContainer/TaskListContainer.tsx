@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import { useTodoContext } from "@/context/TodoContext";
+import TaskListElement from "@/components/TaskListContainer/TaskListElement";
 
 const StyledListElements = styled.div`
   width: 100%;
@@ -9,7 +10,6 @@ const StyledListElements = styled.div`
   padding-right: 1rem;
   border-radius: 0.5rem;
   display: flex;
-  align-items: center;
   flex-direction: column;
   border: 1px solid var(--accent);
   font-size: 22px;
@@ -17,8 +17,21 @@ const StyledListElements = styled.div`
 
 function TaskListContainer() {
   const { state } = useTodoContext();
-  console.log(state.todos);
-  return <StyledListElements>{}</StyledListElements>;
+
+  return (
+    <StyledListElements>
+      {state.todos.length === 0
+        ? "موردی برای نمایش وجود ندارد"
+        : state.todos.map((todo, index) => (
+            <TaskListElement
+              title={todo.title}
+              description={todo.description}
+              id={`${index}`}
+              key={index}
+            />
+          ))}
+    </StyledListElements>
+  );
 }
 
 export default TaskListContainer;
