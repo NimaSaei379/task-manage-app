@@ -26,6 +26,7 @@ function TaskListContainer() {
             <TaskListElement
               title={todo.title}
               description={todo.description}
+              isDone={todo.isDone}
               id={`${index}`}
               key={index}
             />

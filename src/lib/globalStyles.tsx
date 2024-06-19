@@ -55,11 +55,12 @@ export const Screen = styled.div`
   overflow: hidden;
 `;
 
-export const TextTitle = styled.p`
+export const TextTitle = styled.p<{ isDone?: boolean }>`
   color: var(--primary-text);
   font-size: 22px;
   font-weight: 500;
   line-height: 1.6;
+  text-decoration: ${({ isDone }) => (isDone ? "line-through" : "none")};
 `;
 
 export const TextDescription = styled.p`

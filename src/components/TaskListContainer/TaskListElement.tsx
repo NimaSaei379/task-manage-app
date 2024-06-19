@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { TextDescription, TextTitle } from "@/lib/globalStyles";
 import { LuPencil, LuTrash } from "react-icons/lu";
 import { useRouter } from "next/navigation";
+import { setIsDone, useTodoContext } from "@/context/TodoContext";
 
 interface ITaskListElementProps {
   title: string;
   description: string;
   id: string;
+  isDone: boolean;
 }
 
-const StyledTaskListItem = styled.div`
+const StyledTaskListItem = styled.div<{ isDone: boolean }>`
   display: flex;
   flex-direction: row;
   margin: 1rem 0;
@@ -19,6 +21,7 @@ const StyledTaskListItem = styled.div`
   gap: 0.5rem;
   align-items: center;
   box-shadow: 0.3rem 0.3rem 1rem var(--accent);
+  background-color: ${({ isDone }) => (isDone ? "#eee" : "")};
 
   & .checkbox-container .checkbox-wrapper {
     display: block;
@@ -116,18 +119,30 @@ const DeleteButton = styled(LuTrash)`
   }
 `;
 
-function TaskListElement({ description, title, id }: ITaskListElementProps) {
+function TaskListElement({
+  description,
+  title,
+  id,
+  isDone,
+}: ITaskListElementProps) {
   const router = useRouter();
+  const { dispatch, state } = useTodoContext();
+
   return (
-    <StyledTaskListItem>
+    <StyledTaskListItem isDone={isDone}>
       <div className="checkbox-container">
         <label className="checkbox-wrapper">
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            checked={isDone}
+            disabled={isDone}
+            onChange={() => dispatch(setIsDone(id))}
+          />
           <span className="checkmark"></span>
         </label>
       </div>
       <div className="content-container">
-        <TextTitle>{title}</TextTitle>
+        <TextTitle isDone={isDone}>{title}</TextTitle>
         <TextDescription>{description}</TextDescription>
       </div>
       <div className="Actions-container">

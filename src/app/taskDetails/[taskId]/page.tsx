@@ -1,5 +1,5 @@
-function TaskDetailsPage({ params }: { params: { slug: string } }) {
-  return <>{params}</>;
+function TaskDetailsPage({ params }: { params: { taskId: string } }) {
+  return <>{params.taskId}</>;
 }
 
 export default TaskDetailsPage;
