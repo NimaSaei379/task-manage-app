@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { TextDescription, TextTitle } from "@/lib/globalStyles";
 import { LuPencil, LuTrash } from "react-icons/lu";
 import { useRouter } from "next/navigation";
-import { setIsDone, useTodoContext } from "@/context/TodoContext";
+import { RemoveTodo, setIsDone, useTodoContext } from "@/context/TodoContext";
 
 interface ITaskListElementProps {
   title: string;
@@ -93,27 +93,29 @@ const StyledTaskListItem = styled.div<{ isDone: boolean }>`
     gap: 0.75rem;
   }
 `;
-const EditButton = styled(LuPencil)`
+const EditButton = styled.button`
   color: blue;
   cursor: pointer;
   border-radius: 100%;
   width: 2rem;
   height: 2rem;
   padding: 0.25rem;
-
+  border: 1px solid var(--accent);
+  background-color: white;
   &:hover {
     background-color: #eee;
   }
 `;
 
-const DeleteButton = styled(LuTrash)`
+const DeleteButton = styled.button`
   color: red;
   cursor: pointer;
   border-radius: 100%;
   width: 2rem;
   height: 2rem;
   padding: 0.25rem;
-
+  border: 1px solid var(--accent);
+  background-color: white;
   &:hover {
     background-color: #eee;
   }
@@ -146,8 +148,15 @@ function TaskListElement({
         <TextDescription>{description}</TextDescription>
       </div>
       <div className="Actions-container">
-        <EditButton onClick={() => router.push(`/taskDetails/${id}`)} />
-        <DeleteButton />
+        <EditButton
+          disabled={isDone}
+          onClick={() => router.push(`/taskDetails/${id}`)}
+        >
+          <LuPencil />
+        </EditButton>
+        <DeleteButton onClick={() => dispatch(RemoveTodo(id))}>
+          <LuTrash />
+        </DeleteButton>
       </div>
     </StyledTaskListItem>
   );

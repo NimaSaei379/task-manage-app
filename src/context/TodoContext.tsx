@@ -4,6 +4,7 @@ export enum TodoActionKind {
   ADD_TODO = "ADD_TODO",
   REMOVE_TODO = "REMOVE_TODO",
   DONE_TODO = "DONE_TODO",
+  EDIT_TODO = "EDIT_TODO",
 }
 
 interface todoShape {
@@ -36,16 +37,36 @@ const reducer = (state: ITodoInitialState, actions: TodoActions) => {
     case TodoActionKind.ADD_TODO:
       return { todos: [...state.todos, actions.payload] };
     case TodoActionKind.DONE_TODO:
-      const findIndex = state.todos.findIndex(
+      const findDoneIndex = state.todos.findIndex(
         (todo) => String(todo.id) === actions.payload,
       );
-      state.todos[findIndex] = { ...state.todos[findIndex], isDone: true };
+      state.todos[findDoneIndex] = {
+        ...state.todos[findDoneIndex],
+        isDone: true,
+      };
       return {
         todos: [...state.todos],
       };
     case TodoActionKind.REMOVE_TODO:
+      const findRemoveIndex = state.todos.findIndex(
+        (todo) => String(todo.id) === actions.payload,
+      );
       return {
-        todos: [...state.todos.filter((todo) => todo.id === actions.payload)],
+        todos: [
+          ...state.todos.filter((todo) => Number(todo.id) !== findRemoveIndex),
+        ],
+      };
+    case TodoActionKind.EDIT_TODO:
+      const findEditIndex = state.todos.findIndex(
+        (todo) => String(todo.id) === actions.payload.id,
+      );
+      state.todos[findEditIndex] = {
+        ...state.todos[findEditIndex],
+        description: actions.payload.description,
+        title: actions.payload.title,
+      };
+      return {
+        todos: [...state.todos],
       };
     default:
       return state;
@@ -76,6 +97,11 @@ export const setIsDone = (id: string) => ({
 
 export const addNewTodo = (data: todoShape) => ({
   type: TodoActionKind.ADD_TODO,
+  payload: data,
+});
+
+export const EditTodo = (data: todoShape) => ({
+  type: TodoActionKind.EDIT_TODO,
   payload: data,
 });
 export const RemoveTodo = (id: string) => ({

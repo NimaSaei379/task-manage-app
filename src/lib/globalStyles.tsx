@@ -68,3 +68,21 @@ export const TextDescription = styled.p`
   font-size: 16px;
   line-height: 1.6;
 `;
+
+export const StyledForm = styled.form`
+  margin: 3rem auto;
+  width: 50%;
+  border: 1px solid #1f2833;
+  border-radius: 2rem;
+  padding: 0.937rem 1.25rem;
+
+  & > div {
+    margin-top: 1rem;
+  }
+`;
+
+export const FormActionContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 1.5rem;
+`;

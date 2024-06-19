@@ -1,5 +1,10 @@
 import React, { InputHTMLAttributes } from "react";
-import { Controller, RegisterOptions, UseFormReturn } from "react-hook-form";
+import {
+  Controller,
+  RegisterOptions,
+  useFormContext,
+  UseFormReturn,
+} from "react-hook-form";
 import styled, { css } from "styled-components";
 
 interface ItextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -7,7 +12,6 @@ interface ItextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   rules?: RegisterOptions;
   label?: string;
   errors?: UseFormReturn["formState"]["errors"];
-  control: UseFormReturn["control"];
   as?: string;
 }
 
@@ -36,20 +40,14 @@ const StyledInput = styled.input<{ as?: string; $error?: boolean }>`
 const StyledErrorMessage = styled.p<any>`
   font-size: 0.75rem;
 `;
-function TextField({
-  label,
-  control,
-  rules,
-  name,
-  as,
-  ...restProps
-}: ItextFieldProps) {
+function TextField({ label, rules, name, as, ...restProps }: ItextFieldProps) {
+  const { control } = useFormContext();
   return (
     <Controller
       rules={rules}
       control={control}
       name={name}
-      render={({ field, fieldState, formState }) => {
+      render={({ field: { onChange, value }, formState }) => {
         return (
           <>
             <label htmlFor={name}>{label}</label>
@@ -57,7 +55,8 @@ function TextField({
               $error={Boolean(formState.errors[name])}
               id={name}
               as={as}
-              {...field}
+              onChange={onChange}
+              value={value}
               {...restProps}
             />
             <StyledErrorMessage>

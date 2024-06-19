@@ -2,7 +2,7 @@
 import { Container, TextTitle } from "@/lib/globalStyles";
 import TaskListContainer from "@/components/TaskListContainer/TaskListContainer";
 import styled from "styled-components";
-import StyledLink from "@/components/LInk/StyledLink";
+import StyledLink from "@/components/Link/StyledLink";
 
 const HeaderStyledContainer = styled(Container)`
   padding: 2.5rem 1rem;
